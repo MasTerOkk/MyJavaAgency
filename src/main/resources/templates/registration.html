@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="#" th:action="@{/addUser}" th:object="${user}" method="POST">
+    <input type="text" th:field="*{login}"/>
+    <input type="password" th:field="*{password}"/>
+    <button type="submit">Save</button>
+</form>
+</body>
+</html>

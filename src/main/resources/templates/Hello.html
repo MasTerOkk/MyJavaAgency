@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1 th:text="AllTour"></h1>
+
+<div class="container">
+    <a th:href="@{/registration}">registration</a><br>
+    <a th:href="@{/newRole}">add role</a>
+    <br>
+    <br>
+    <div sec:authorize="isAnonymous()">
+        This content is only shown to not authenticated users.
+    </div>
+    <div sec:authorize="isAuthenticated()">
+        This content is only shown to authenticated users.
+    </div>
+    <div sec:authorize="hasRole('ROLE_ADMIN')">
+        This content is only shown to administrators.
+    </div>
+    <div sec:authorize="hasRole('ROLE_USER')">
+        This content is only shown to users.
+    </div>
+    Logged user: <span sec:authentication="name"></span>
+<!--    Roles: <span sec:authentication="principal.authorities"></span>-->
+    <br>
+    <br>
+    <form action="#" th:action="@{/}" th:object="${tour}" method="POST">
+        <input type="text" th:field="*{name}"/>
+        <input type="number" th:field="*{price}"/>
+        <button type="submit">Save</button>
+    </form>
+    <div class="tour-list">
+        <table>
+            <tr>
+                <td>Name</td>
+                <td>Price</td>
+                <td>Delete</td>
+            </tr>
+            <tr th:each="tour: ${AllTour}">
+                <td th:text="${tour.getName()}"></td>
+                <td th:text="${tour.getPrice()}"></td>
+                <td><a th:href="@{/deleteTour/{tour_id}(tour_id=${tour.getId()})}">delete</a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>
