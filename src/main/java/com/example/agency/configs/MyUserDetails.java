@@ -17,6 +17,14 @@ public class MyUserDetails implements UserDetails {
         this.user = user;
     }
 
+    public Long getUserId() {
+        return user.getId();
+    }
+
+    public User getUser() {
+        return user;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Arrays.stream(user.getRole().getName().split(", "))

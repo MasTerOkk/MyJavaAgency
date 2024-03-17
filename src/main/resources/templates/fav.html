@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <table th:if="${favListFlag}">
+        <thead>
+            <tr>
+                <td>Id</td>
+                <td>Название</td>
+                <td>Цена</td>
+                <td>Удалить</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="tour: ${favList}">
+                <td th:text="${tour.getId()}"></td>
+                <td th:text="${tour.getName()}"></td>
+                <td th:text="${tour.getPrice()}"></td>
+                <td><a th:href="@{/deleteFavTour/{tour_id}(tour_id=${tour.getId()})}">delete</a></td>
+            </tr>
+        </tbody>
+    </table>
+    <br><br>
+    <table th:if="${tourFavUsersListFlag}">
+        <thead>
+        <tr>
+            <td>Id</td>
+            <td>Логин</td>
+            <td>Роль</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user: ${tourFavUsersList}">
+            <td th:text="${user.getId()}"></td>
+            <td th:text="${user.getLogin()}"></td>
+            <td th:text="${user.getRole().getName()}"></td>
+        </tr>
+        </tbody>
+    </table>
+</body>
+</html>

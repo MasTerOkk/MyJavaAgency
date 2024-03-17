@@ -1,16 +1,16 @@
 package com.example.agency.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class Role {
     @Id
@@ -25,6 +25,21 @@ public class Role {
 
     public Role(String name) {
         this.name = name;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, users);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Role role = (Role) o;
+        return  Objects.equals(id, role.id) &&
+                Objects.equals(users, role.users) &&
+                Objects.equals(name, role.name);
     }
 
 }

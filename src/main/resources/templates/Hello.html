@@ -10,6 +10,7 @@
 <div class="container">
     <a th:href="@{/registration}">registration</a><br>
     <a th:href="@{/newRole}">add role</a>
+    <a th:href="@{/login}">login</a>
     <br>
     <br>
     <div sec:authorize="isAnonymous()">
@@ -17,6 +18,7 @@
     </div>
     <div sec:authorize="isAuthenticated()">
         This content is only shown to authenticated users.
+        <p th:text="${test}"></p>
     </div>
     <div sec:authorize="hasRole('ROLE_ADMIN')">
         This content is only shown to administrators.
@@ -25,7 +27,7 @@
         This content is only shown to users.
     </div>
     Logged user: <span sec:authentication="name"></span>
-<!--    Roles: <span sec:authentication="principal.authorities"></span>-->
+    Logged user id: <span th:text="${userid}"></span>
     <br>
     <br>
     <form action="#" th:action="@{/}" th:object="${tour}" method="POST">
@@ -39,11 +41,15 @@
                 <td>Name</td>
                 <td>Price</td>
                 <td>Delete</td>
+                <td>userFav</td>
+                <td sec:authorize="isAuthenticated()">fav</td>
             </tr>
             <tr th:each="tour: ${AllTour}">
                 <td th:text="${tour.getName()}"></td>
                 <td th:text="${tour.getPrice()}"></td>
                 <td><a th:href="@{/deleteTour/{tour_id}(tour_id=${tour.getId()})}">delete</a></td>
+                <td><a th:href="@{/favTourUsers/{tour_id}(tour_id=${tour.getId()})}">users</a></td>
+                <td sec:authorize="isAuthenticated()"><a th:href="@{/addFavTour/{tour_id}(tour_id=${tour.getId()})}">fav</a></td>
             </tr>
         </table>
     </div>

@@ -19,11 +19,19 @@ public class UserService {
     private final RoleRepository roleRepository;
 
     public void saveUser(User user) throws RoleNotFoundException {
-        Role role = roleRepository.findByName("ROLE_USER")
+        Role role = roleRepository.getByRoleName("ROLE_USER")
                 .orElseThrow(() -> new RoleNotFoundException("role not found"));
 
         user.setRole(role);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
+    }
+
+    public void updateUser(User user) {
+        userRepository.save(user);
+    }
+
+    public User findById(Long id) {
+        return userRepository.findById(id).orElseThrow();
     }
 }

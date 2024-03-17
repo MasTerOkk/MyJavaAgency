@@ -28,10 +28,11 @@ public class UserController {
         return "registration";
     }
 
+    // TODO Обработать error "RoleNotFoundException"
     @PostMapping("/addUser")
     public String createUser(@ModelAttribute(name = "user") User user) throws RoleNotFoundException {
         userService.saveUser(user);
-        return "redirect:/";
+        return "redirect:/login";
     }
 
     @GetMapping("/newRole")
