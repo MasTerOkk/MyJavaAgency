@@ -1,0 +1,13 @@
+PUT http://localhost:8080/amount/send
+    ?senderId=1
+    &recipientId=2
+    &money=500
+
+###
+PUT http://localhost:8080/amount/sendException
+    ?senderId=1
+    &recipientId=2
+    &money=500
+
+###
+PUT http://localhost:8080/amount/add?money=2000&userId=1

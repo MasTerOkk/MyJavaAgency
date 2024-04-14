@@ -35,14 +35,23 @@ public class DevelopmentInit {
         user1.setPassword(encoder.encode("test"));
         user1.setRole(user);
         user1.setLogin("test");
+        user1.setAmount(2000);
         userRepository.save(user1);
+
+        User user2 = new User();
+        user2.setFavTourList(null);
+        user2.setPassword(encoder.encode("david"));
+        user2.setRole(user);
+        user2.setLogin("david");
+        user2.setAmount(0);
+        userRepository.save(user2);
 
         Tour tour1 = new Tour();
         tour1.setName("Tour1");
         tour1.setPrice(10000);
         Tour tour2 = new Tour();
         tour2.setName("Tour2");
-        tour2.setPrice(9999);
+        tour2.setPrice(777);
         tourRepository.saveAll(List.of(tour1,tour2));
     }
 }

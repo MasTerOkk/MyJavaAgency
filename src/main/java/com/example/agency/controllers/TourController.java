@@ -6,23 +6,18 @@ import com.example.agency.entity.User;
 import com.example.agency.service.TourService;
 import com.example.agency.service.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Controller
 @AllArgsConstructor
-public class tourController {
+public class TourController {
 
     private final TourService tourService;
     private final UserService userService;
@@ -50,10 +45,20 @@ public class tourController {
         return "redirect:/";
     }
 
+    @PostMapping("/findTour")
+    public String findTour(
+            @RequestParam(name = "tourName") String tourName,
+            Model model
+        ) {
+        List<Tour> tourList = tourService.getToursByName(tourName);
+        model.addAttribute("AllTour", tourList);
+        model.addAttribute("tour", new Tour());
+        return "Hello";
+    }
+
     @GetMapping("/deleteTour/{tour_id}")
     public String deleteTour(@PathVariable(name = "tour_id") Long tour_id) {
         tourService.delete(tour_id);
-        System.out.println("deleteTour");
         return "redirect:/";
     }
 
@@ -95,35 +100,9 @@ public class tourController {
 
             Tour tour = tourService.getById(tour_id);
 
-            List<Tour> tourList = user.getFavTourList();
-            boolean tourFlag = false;
-            for (Tour t: tourList) {
-                if (Objects.equals(t.getId(), tour.getId())) {
-                    tourFlag = true;
-                    break;
-                }
-            }
-            if (!tourFlag) {
-                tourList.add(tour);
-                user.setFavTourList(tourList);
-                userService.updateUser(user);
-            }
+            userService.putTourToList(user,tour);
 
-            List<User> userList = tour.getUsersFavTourList();
-            boolean userFlag = false;
-            for (User u: userList) {
-                if (Objects.equals(u.getId(), user.getId())) {
-                    userFlag = true;
-                    break;
-                }
-            }
-            if (!userFlag) {
-                userList.add(user);
-                tour.setUsersFavTourList(userList);
-                tourService.save(tour);
-            }
-
-//            System.out.println(tour.hashCode() + " = " + tourList.get(tourList.size() - 1).hashCode());
+            tourService.putUserToList(user, tour);
 
         }
         return "redirect:/fav";

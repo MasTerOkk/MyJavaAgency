@@ -22,13 +22,18 @@ public class User {
     @Column(unique = true)
     private String login;
     private String password;
+    private Integer amount;
     @ManyToOne
     @JoinColumn(
             name = "roleid",
             nullable = true
     )
     private Role role;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
+    @JoinTable(
+            name = "fav",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "tour_id"))
     private List<Tour> favTourList;
 
     @Override

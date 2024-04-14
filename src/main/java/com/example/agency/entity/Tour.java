@@ -22,7 +22,7 @@ public class Tour {
     private Long id;
     private String name;
     private Integer price;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     private List<User> usersFavTourList;
 
     @Override
